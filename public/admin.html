@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ShopNexa Admin</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7f3;font-family:system-ui,Arial;color:#183a28}.wrap{max-width:1100px;margin:28px auto;padding:0 16px}.card{background:white;border:1px solid #dfe9e0;border-radius:15px;padding:20px;margin:14px 0;box-shadow:0 8px 24px #073f2710}h1{color:#086b3b}input,select,textarea{padding:11px;border:1px solid #ccd9ce;border-radius:8px;width:100%;margin:5px 0 12px}button{background:#086b3b;color:white;border:0;padding:11px 15px;border-radius:8px;font-weight:700;cursor:pointer}button.secondary{background:#eaf5ec;color:#086b3b}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.hidden{display:none}.muted{color:#64766a;font-size:13px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row input{flex:1;min-width:120px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px;border-bottom:1px solid #e6eee7;vertical-align:top}#msg{padding:10px;border-radius:8px;background:#fff5d6;display:none;white-space:pre-wrap}.tablewrap{overflow:auto}
+/* ShopNexa Admin — professional responsive dashboard layer */
+:root{--admin-green:#087443;--admin-deep:#064b32;--admin-line:#e1ebe4;--admin-muted:#718078;--admin-shadow:0 8px 26px rgba(9,60,35,.065)}
+body{background:linear-gradient(180deg,#f2f8f4,#f8faf8 35%,#f3f8f4);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:1240px;margin:24px auto;padding:0 clamp(14px,3vw,26px)}
+h1{display:flex;align-items:center;gap:11px;color:var(--admin-deep);font-size:clamp(25px,4vw,34px);letter-spacing:-1px;margin-bottom:5px}
+h1:before{content:"S";display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#0c8750,#064b32);color:white;font-size:23px;box-shadow:0 6px 14px #08744330}
+h2{letter-spacing:-.5px;color:#214632}
+.card{border:1px solid var(--admin-line);border-radius:17px;padding:clamp(16px,2.5vw,23px);margin:16px 0;box-shadow:var(--admin-shadow)}
+#login{max-width:480px;margin:28px auto}
+#login h2{margin-top:0}
+input,select,textarea{border:1px solid #d4e1d7;border-radius:10px;padding:12px;margin:6px 0 13px;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:#81bd96;box-shadow:0 0 0 4px #08744312}
+button{border-radius:10px;padding:11px 16px;background:var(--admin-green);box-shadow:0 4px 10px #08744318;transition:transform .18s,box-shadow .18s}
+button:hover{transform:translateY(-1px);box-shadow:0 7px 15px #08744322}
+button.secondary{box-shadow:none}
+.grid{gap:13px}
+#stats .card{margin:0;border-radius:14px;box-shadow:var(--admin-shadow)}
+#stats .card h2{font-size:clamp(23px,4vw,31px);margin:8px 0 0;color:var(--admin-green)}
+.row{margin:12px 0}
+.tablewrap{border:1px solid var(--admin-line);border-radius:12px}
+table{font-size:13px;background:white}
+th{position:sticky;top:0;background:#f2f8f4;color:#315640;font-weight:800;white-space:nowrap}
+th,td{padding:12px;border-bottom:1px solid #e9f0eb}
+tbody tr:hover{background:#f8fcf9}
+td button{margin:3px 2px;padding:8px 10px;font-size:12px}
+td input,td select{min-width:85px;padding:8px;margin:3px 0}
+#msg{border:1px solid #efdfad;background:#fff9e9;color:#624c18;border-radius:11px;margin:12px 0}
+label{font-size:13px;font-weight:700;color:#425b4b}
+button:focus-visible{outline:3px solid #8bc8a0;outline-offset:2px}
+@media(max-width:640px){
+ .wrap{margin:14px auto}
+ .row button{flex:1}
+ .card{padding:15px}
+ table{min-width:760px}
+ #login{margin:18px auto}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+</style></head><body><div class="wrap"><h1>ShopNexa Admin</h1><p class="muted">Manage products, stock and orders. Protect this page and use HTTPS in production.</p><div id="msg" role="status" aria-live="polite"></div>
+<section id="login" class="card"><h2>Admin Login</h2><form id="loginForm"><label>Email</label><input id="email" type="email" autocomplete="username" required><label>Password</label><input id="password" type="password" autocomplete="current-password" required><button>Log in</button></form></section>
+<div id="panel" class="hidden"><div class="row"><button id="refresh" class="secondary">Refresh dashboard</button><button id="logout" class="secondary">Log out</button></div><div id="stats" class="grid"></div>
+<section class="card"><h2>Add Product</h2><form id="productForm" class="grid"><div><label>Product name</label><input name="name" required></div><div><label>Category</label><input name="category" required></div><div><label>Price (BDT, whole number)</label><input name="price" type="number" min="0" required></div><div><label>Compare price (optional)</label><input name="comparePrice" type="number" min="0"></div><div><label>Opening stock</label><input name="stock" type="number" min="0" required></div><div><label>Image URL</label><input name="imageUrl" type="url"></div><div style="grid-column:1/-1"><label>Description</label><textarea name="description"></textarea></div><div><button>Add product</button></div></form></section>
+<section class="card"><h2>Products & Stock</h2><div class="tablewrap"><table><thead><tr><th>Product</th><th>Price</th><th>Stock</th><th>Active</th><th>Action</th></tr></thead><tbody id="products"></tbody></table></div></section>
+<section class="card"><h2>Orders</h2><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total / Payment</th><th>Status</th><th>Actions</th></tr></thead><tbody id="orders"></tbody></table></div></section></div></div>
+<script>
+const $=id=>document.getElementById(id);function msg(t){$('msg').style.display='block';$('msg').textContent=t}async function api(url,opts={}){const r=await fetch('/api'+url,{credentials:'include',headers:{'Content-Type':'application/json',...(opts.headers||{})},...opts});let d={};try{d=await r.json()}catch{}if(!r.ok)throw Error(d.error||'Request failed');return d}
+$('loginForm').onsubmit=async e=>{e.preventDefault();try{await api('/admin/login',{method:'POST',body:JSON.stringify({email:$('email').value,password:$('password').value})});$('login').classList.add('hidden');$('panel').classList.remove('hidden');await refresh()}catch(x){msg(x.message)}};
+async function refresh(){try{const d=await api('/admin/dashboard');$('stats').innerHTML=Object.entries({'Products':d.products,'Orders':d.orders,'Paid revenue (BDT)':d.paidRevenue,'Pending orders':d.pendingOrders,'Low stock items':d.lowStock}).map(([k,v])=>`<div class="card"><div class="muted">${k}</div><h2>${v}</h2></div>`).join('');await loadProducts();await loadOrders()}catch(e){msg(e.message)}}
+async function loadProducts(){const d=await api('/admin/products');$('products').innerHTML=d.products.map(p=>`<tr><td>${esc(p.name)}<br><small>${esc(p.category)}</small></td><td>৳${p.price}</td><td><input style="width:85px" type="number" min="0" id="stock${p.id}" value="${p.stock}"></td><td>${p.active?'Yes':'No'}</td><td><button onclick="updateStock(${p.id},${p.price})">Save stock</button> <button class="secondary" onclick="toggleActive(${p.id},${p.active})">${p.active?'Hide':'Activate'}</button></td></tr>`).join('')}
+async function loadOrders(){const d=await api('/admin/orders');$('orders').innerHTML=d.orders.map(o=>`<tr><td><b>${esc(o.order_code)}</b><br><small>${esc(o.created_at)}</small></td><td>${esc(o.customer_name)}<br>${esc(o.phone)}<br>${esc(o.address)}</td><td>${o.items.map(i=>esc(i.product_name)+' × '+i.quantity).join('<br>')}</td><td>৳${o.total}<br>${esc(o.payment_status)}</td><td>${esc(o.order_status)}<br><small>${esc(o.courier_status||'')}</small></td><td><select id="status${o.id}"><option>pending</option><option>confirmed</option><option>processing</option><option>shipped</option><option>delivered</option><option>cancelled</option></select><button onclick="updateOrder(${o.id})">Save status</button><button class="secondary" onclick="createCourier(${o.id})">Create Steadfast parcel</button><button class="secondary" onclick="refreshCourier(${o.id})">Refresh tracking</button></td></tr>`).join('')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+window.updateStock=async(id)=>{try{const stock=Number($('stock'+id).value);await api('/admin/products/'+id,{method:'PATCH',body:JSON.stringify({stock})});msg('Stock updated');await refresh()}catch(e){msg(e.message)}};
+window.toggleActive=async(id,active)=>{try{await api('/admin/products/'+id,{method:'PATCH',body:JSON.stringify({active:!active})});await refresh()}catch(e){msg(e.message)}};
+window.updateOrder=async id=>{try{await api('/admin/orders/'+id+'/status',{method:'PATCH',body:JSON.stringify({status:$('status'+id).value})});msg('Order status updated');await refresh()}catch(e){msg(e.message)}};
+window.createCourier=async id=>{try{const d=await api('/courier/steadfast/create',{method:'POST',body:JSON.stringify({orderId:id})});msg('Parcel created. Tracking: '+d.trackingCode);await refresh()}catch(e){msg(e.message)}};
+window.refreshCourier=async id=>{try{const d=await api('/courier/steadfast/refresh/'+id,{method:'POST',body:'{}'});msg('Courier status: '+d.status);await refresh()}catch(e){msg(e.message)}};
+$('productForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target),o=Object.fromEntries(f.entries());o.price=Number(o.price);o.stock=Number(o.stock);o.comparePrice=o.comparePrice===''?null:Number(o.comparePrice);try{await api('/admin/products',{method:'POST',body:JSON.stringify(o)});e.target.reset();msg('Product added');await refresh()}catch(x){msg(x.message)}};
+$('refresh').onclick=refresh;$('logout').onclick=async()=>{await api('/admin/logout',{method:'POST',body:'{}'});location.reload()};
+</script></body></html>
